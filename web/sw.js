@@ -1,9 +1,9 @@
-const CACHE_NAME = "tokyo-itinerary-v4";
+const CACHE_NAME = "tokyo-itinerary-v5";
 const APP_SHELL = [
   "./",
   "./index.html",
-  "./styles.css?v=20260917-7",
-  "./app.js?v=20260917-7",
+  "./styles.css?v=20260917-8",
+  "./app.js?v=20260917-8",
   "./manifest.webmanifest",
   "./icon.svg"
 ];
