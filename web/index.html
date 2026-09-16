@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="東京 9/17–9/21 行程整合表" />
+    <title>東京行程整合表｜小莊 × 丁丁</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">TOKYO · 9.17 — 9.21</p>
+        <h1 id="page-title">東京行程整合表</h1>
+        <p class="subtitle">小莊 <span>×</span> 丁丁</p>
+        <p class="intro">同一趟旅程，各自保有想去的地方，也清楚留出相聚的時段。</p>
+      </section>
+
+      <section class="legend" aria-label="行程顏色圖例">
+        <div class="legend-item zhuang"><i></i><span>小莊行程</span></div>
+        <div class="legend-item ding"><i></i><span>丁丁行程</span></div>
+        <div class="legend-item shared"><i></i><span>共同部分</span></div>
+      </section>
+
+      <nav class="day-nav" aria-label="日期選擇" id="day-nav"></nav>
+      <section class="itinerary" id="itinerary" aria-live="polite"></section>
+
+      <section class="note">
+        <h2>行程說明</h2>
+        <p>共同部分僅標示兩份原始行程中明確出現的相同地點或活動；同日都在東京不會自動視為共同安排。</p>
+      </section>
+    </main>
+
+    <footer>東京行程整合表 · 最後更新 2026/09/16</footer>
+    <script src="app.js"></script>
+  </body>
+</html>
