@@ -15,7 +15,7 @@
 
 * { box-sizing: border-box; }
 
-section[id], h2[id] { scroll-margin-top: 92px; }
+section[id], h2[id] { scroll-margin-top: 132px; }
 
 body {
   margin: 0;
