@@ -72,6 +72,16 @@ h1 { margin: 0; font: 700 clamp(2.4rem, 7vw, 4.7rem)/1 "Playfair Display", "Noto
 .guide summary { cursor: pointer; font-weight: 700; color: var(--ink); }
 .guide details ul { margin: 12px 0 0; padding-left: 1.2rem; color: var(--muted); line-height: 1.75; font-size: .9rem; }
 .guide-private { margin: 18px 0 0; color: #8b5e34; font-size: .82rem; line-height: 1.6; }
+.flights { margin-top: 28px; padding: 26px; background: #102f3a; color: #f8fafc; border-radius: 20px; }
+.flights .guide-heading p:last-child { color: #c7d9dc; }
+.flight-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 20px; }
+.flight-card { padding: 17px; background: #fdf8f0; color: var(--ink); border-radius: 13px; }
+.flight-tag { display: inline-block; margin-bottom: 10px; color: #9a4c0c; font-weight: 800; letter-spacing: .08em; }
+.flight-card strong { display: block; font-size: 1.3rem; }
+.flight-card p { margin: 9px 0 6px; color: var(--muted); line-height: 1.6; font-size: .9rem; }
+.flight-card small { color: #8b5e34; line-height: 1.5; }
+.luggage-card { margin-top: 10px; padding: 17px; background: #e8f2f1; color: var(--ink); border-radius: 13px; }
+.luggage-card p { margin: 7px 0 0; color: var(--muted); line-height: 1.7; font-size: .9rem; }
 footer { padding: 0 16px 32px; text-align: center; color: #8a96a4; font-size: .78rem; }
 
 @media (max-width: 680px) {
@@ -82,5 +92,7 @@ footer { padding: 0 16px 32px; text-align: center; color: #8a96a4; font-size: .7
   .event { grid-template-columns: 1fr; gap: 7px; padding: 14px; }
   .guide { padding: 18px; border-radius: 16px; }
   .guide-grid { grid-template-columns: 1fr; }
+  .flights { padding: 18px; border-radius: 16px; }
+  .flight-grid { grid-template-columns: 1fr; }
 }
 
