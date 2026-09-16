@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
     <link rel="manifest" href="manifest.webmanifest" />
     <meta name="theme-color" content="#102f3a" />
-    <link rel="stylesheet" href="styles.css?v=20260917-6" />
+    <link rel="stylesheet" href="styles.css?v=20260917-7" />
   </head>
   <body>
     <main class="page-shell">
@@ -19,9 +19,16 @@
         <h1 id="page-title">東京行程整合表</h1>
         <p class="subtitle">小莊 <span>×</span> 丁丁</p>
         <p class="intro">同一趟旅程，各自保有想去的地方，也清楚留出相聚的時段。</p>
-        <div class="offline-indicator is-preparing" id="offline-indicator" role="status" aria-live="polite">
-          <span class="offline-light" aria-hidden="true"></span>
-          <span id="offline-indicator-text">離線準備中</span>
+        <div class="hero-utilities">
+          <div class="offline-indicator is-preparing" id="offline-indicator" role="status" aria-live="polite">
+            <span class="offline-light" aria-hidden="true"></span>
+            <span id="offline-indicator-text">離線準備中</span>
+          </div>
+          <button type="button" class="install-app" id="install-app" hidden>安裝到裝置</button>
+          <details class="install-help">
+            <summary>＋ 加入主畫面</summary>
+            <p>Android／Edge：開啟瀏覽器選單，選「安裝應用程式」或「加入主畫面」。iPhone／iPad：請用 Safari 的分享按鈕，選「加入主畫面」。</p>
+          </details>
         </div>
         <button type="button" class="font-toggle hero-font-toggle" id="font-toggle" aria-pressed="false">Aa 大字模式</button>
       </section>
@@ -34,21 +41,6 @@
 
     <section class="today-summary" id="today-summary" aria-labelledby="today-title">
       <div id="today-card" aria-live="polite"></div>
-    </section>
-
-    <section class="offline-card" aria-labelledby="offline-title">
-      <div>
-        <p class="eyebrow">OFFLINE MODE</p>
-        <h2 id="offline-title">離線模式</h2>
-        <p id="offline-status" aria-live="polite">正在準備離線內容…</p>
-      </div>
-      <div class="offline-actions">
-        <button type="button" id="install-app" hidden>安裝到裝置</button>
-        <details>
-          <summary>怎麼加入主畫面？</summary>
-          <p>Android／Edge：開啟瀏覽器選單，選「安裝應用程式」或「加入主畫面」。iPhone／iPad：請用 Safari 的分享按鈕，選「加入主畫面」。首次在線開啟後，才可離線使用。</p>
-        </details>
-      </div>
     </section>
 
       <nav class="quick-nav" aria-label="頁面快捷導覽">
@@ -198,7 +190,7 @@
     </aside>
 
     <footer>東京行程整合表 · 最後更新 2026/09/16</footer>
-    <script src="app.js?v=20260917-6"></script>
+    <script src="app.js?v=20260917-7"></script>
   </body>
 </html>
 
