@@ -137,6 +137,14 @@ body.large-text .guide-heading h2, body.large-text .today-heading h2 { font-size
 .flight-card small { color: #8b5e34; line-height: 1.5; }
 .luggage-card { margin-top: 10px; padding: 17px; background: #e8f2f1; color: var(--ink); border-radius: 13px; }
 .luggage-card p { margin: 7px 0 0; color: var(--muted); line-height: 1.7; font-size: .9rem; }
+.ticket-guide { margin-top: 22px; padding: 26px; border: 1px solid #e6d5c3; border-radius: 20px; background: #fffaf3; }
+.ticket-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+.ticket-step { display: flex; gap: 12px; padding: 15px; border: 1px solid #f0dfcd; border-radius: 13px; background: #fffefa; }
+.ticket-step > span { display: grid; flex: 0 0 28px; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #b45309; color: white; font-weight: 700; }
+.ticket-step h3 { margin: 1px 0 5px; font-size: .98rem; }
+.ticket-step p { margin: 0; color: var(--muted); font-size: .86rem; line-height: 1.65; }
+.ticket-notes { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 15px; padding: 12px 14px; border-radius: 10px; background: #f8eadb; color: #70451f; font-size: .84rem; line-height: 1.6; }
+.ticket-private { margin: 13px 0 0; color: #7a6d60; font-size: .78rem; line-height: 1.6; }
 .reminders { margin-top: 28px; padding: 26px; background: #fff6e9; border: 1px solid #f2d2ac; border-radius: 20px; }
 .reminder-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 20px; }
 .reminder-card { padding: 17px; background: rgba(255,255,255,.75); border: 1px solid rgba(242,210,172,.9); border-radius: 13px; }
@@ -200,6 +208,8 @@ footer { padding: 0 16px 32px; text-align: center; color: #8a96a4; font-size: .7
   .guide-grid { grid-template-columns: 1fr; }
   .flights { padding: 18px; border-radius: 16px; }
   .flight-grid { grid-template-columns: 1fr; }
+  .ticket-guide { padding: 18px; border-radius: 16px; }
+  .ticket-grid { grid-template-columns: 1fr; }
   .reminders { padding: 18px; border-radius: 16px; }
   .reminder-grid { grid-template-columns: 1fr; }
   .weather-plan { padding: 18px; border-radius: 16px; }
