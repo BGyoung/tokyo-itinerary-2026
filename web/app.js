@@ -145,8 +145,49 @@ fontToggle.addEventListener("click", () => {
 });
 renderFontSize(largeTextEnabled);
 
+const offlineStatus = document.querySelector("#offline-status");
+const installApp = document.querySelector("#install-app");
+let deferredInstallPrompt;
+
+function updateOfflineStatus() {
+  if (!navigator.onLine) {
+    offlineStatus.textContent = "目前離線，正在顯示已快取的行程內容。";
+  } else if (navigator.serviceWorker?.controller) {
+    offlineStatus.textContent = "離線內容已準備完成，可在沒有網路時開啟此行程。";
+  }
+}
+
+window.addEventListener("beforeinstallprompt", event => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  installApp.hidden = false;
+});
+
+installApp.addEventListener("click", async () => {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = undefined;
+  installApp.hidden = true;
+});
+
+window.addEventListener("online", updateOfflineStatus);
+window.addEventListener("offline", updateOfflineStatus);
+
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => navigator.serviceWorker.ready)
+      .then(() => {
+        updateOfflineStatus();
+        navigator.serviceWorker.addEventListener("controllerchange", updateOfflineStatus, { once: true });
+      })
+      .catch(() => {
+        offlineStatus.textContent = "此瀏覽器目前無法啟用離線模式，請保持網路連線使用。";
+      });
+  });
+} else {
+  offlineStatus.textContent = "此瀏覽器不支援離線模式，請保持網路連線使用。";
 }
 
 const savedChecks = JSON.parse(localStorage.getItem("tokyo-itinerary-checks") || "{}");
@@ -177,3 +218,4 @@ checklistToggle.addEventListener("click", () => setChecklistOpen(!document.body.
 document.querySelector("#checklist-close").addEventListener("click", () => setChecklistOpen(false));
 checklistBackdrop.addEventListener("click", () => setChecklistOpen(false));
 document.addEventListener("keydown", event => { if (event.key === "Escape") setChecklistOpen(false); });
+
