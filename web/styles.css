@@ -222,6 +222,6 @@ footer { padding: 0 16px 32px; text-align: center; color: #8a96a4; font-size: .7
   .quick-nav a { flex: 1 1 auto; padding: 8px 7px; text-align: center; font-size: .78rem; }
   .font-toggle { padding: 10px 12px; font-size: .86rem; }
   .quick-nav .top-link { margin-left: 0; }
-  section[id], h2[id] { scroll-margin-top: 76px; }
+  section[id], h2[id] { scroll-margin-top: 132px; }
 }
 
