@@ -8,7 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=20260917-3" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#102f3a" />
+    <link rel="stylesheet" href="styles.css?v=20260917-4" />
   </head>
   <body>
     <main class="page-shell">
@@ -17,6 +19,7 @@
         <h1 id="page-title">東京行程整合表</h1>
         <p class="subtitle">小莊 <span>×</span> 丁丁</p>
         <p class="intro">同一趟旅程，各自保有想去的地方，也清楚留出相聚的時段。</p>
+        <button type="button" class="font-toggle hero-font-toggle" id="font-toggle" aria-pressed="false">Aa 大字模式</button>
       </section>
 
       <section class="legend" aria-label="行程顏色圖例">
@@ -24,6 +27,20 @@
         <div class="legend-item ding"><i></i><span>丁丁行程</span></div>
         <div class="legend-item shared"><i></i><span>共同部分</span></div>
       </section>
+
+      <section class="today-summary" id="today-summary" aria-labelledby="today-title">
+        <div id="today-card" aria-live="polite"></div>
+      </section>
+
+      <nav class="quick-nav" aria-label="頁面快捷導覽">
+        <a href="#itinerary">行程</a>
+        <a href="#guide-title">民宿</a>
+        <a href="#flight-title">航班</a>
+        <a href="#reminders-title">提醒</a>
+        <a href="#weather-title">雨天</a>
+        <a href="#tools-title">行李／緊急</a>
+        <a href="#page-title" class="top-link">頂端 ↑</a>
+      </nav>
 
       <nav class="day-nav" aria-label="日期選擇" id="day-nav"></nav>
       <section class="itinerary" id="itinerary" aria-live="polite"></section>
@@ -40,8 +57,8 @@
           <p>把住宿手冊整理成旅途中容易查找的重點。需要完整圖文時，請查看原始 PDF。</p>
         </div>
         <div class="guide-grid">
-          <details open><summary>入住與退房</summary><ul><li>民宿：Tora Hotel Skytree，房號 501。</li><li>入住時先到 1 樓電梯左側操作平板，取得房門 4 位數密碼。</li><li>輸入密碼後按 Lockstate 解鎖；離開時按 Lockstate 鎖門。</li><li>退房時間為上午 11:00，離開時鎖門即可。</li><li>延遲退房每小時 2,000 日圓，最晚至下午 1:00。</li></ul></details>
-          <details><summary>交通與位置</summary><ul><li>地址：東京都墨田區押上 1-21-7。</li><li>押上站建議走 B3 出口或 Skytree Town 出口，依指示過馬路直走。</li><li>從晴空塔步行約 3 分鐘可到民宿。</li><li>前往其他地點或從其他車站下車，請以 Google Maps 確認即時路線。</li></ul></details>
+          <details open><summary>入住與退房</summary><ul><li>入住資訊與門鎖操作方式請查看同行群組或私人住宿資料。</li><li>退房時間為上午 11:00，離開時請確認門已上鎖。</li><li>延遲退房每小時 2,000 日圓，最晚至下午 1:00。</li></ul></details>
+          <details><summary>交通與位置</summary><ul><li>住宿精確位置與前往路線已移至私人行程資料，本公開頁不顯示。</li><li>移動前請以同行群組提供的資訊或地圖確認即時路線。</li></ul></details>
           <details><summary>屋內設備</summary><ul><li>微波爐：選擇功率，再設定時間即可啟動。</li><li>洗衣機：按「切／入」，再按「スタート」。</li><li>電磁爐：長按 Start／Stop 2 秒開機，三角鍵調整火力。</li><li>冷暖氣：以 Mode 切換，三角鍵調溫，設定後按 セット 確認。</li><li>同樓層空調請勿同時使用冷房與暖房模式。</li><li>避免同時使用多個高功率電器，以免跳電。</li></ul></details>
           <details><summary>垃圾與清潔</summary><ul><li>垃圾分為可燃、不可燃、資源垃圾三類。</li><li>垃圾請於上午 11:00 前放在電梯旁；超過時間將隔日處理。</li><li>邊長超過 30 公分為大型垃圾，每件處理費 2,000 日圓，請先聯絡客服。</li><li>備用垃圾袋在洗手台或廚房下方；不足時可至 2 樓備品櫃取用。</li></ul></details>
           <details><summary>附近店家與景點</summary><ul><li>店家：LIFE 超市、松本清、唐吉訶德淺草店、Yodobashi 秋葉原店。</li><li>餐廳：焼鳥 おみ乃、Spice Cafe、World Beer Museum、鰻禪、竹末東京、Sushi Toriton。</li><li>景點：東京晴空塔、淺草寺、上野公園與動物園、阿美橫丁、秋葉原、東京國立博物館。</li></ul></details>
@@ -64,22 +81,67 @@
         <article class="luggage-card"><span class="flight-tag">寄放行李方式</span><p>入住前：上午 11:00 後可將行李放在房間門口，並拍照傳給住宿方，工作人員會視情況協助搬入。</p><p>退房後：可使用附近車站的投幣式置物櫃；貴重物品請隨身保管。</p></article>
       </section>
 
+      <section class="reminders" aria-labelledby="reminders-title">
+        <div class="guide-heading">
+          <p class="eyebrow">ARRIVAL & RETURN</p>
+          <h2 id="reminders-title">抵達提醒／返程倒數</h2>
+          <p>把最容易漏掉的事放在同一處；勾選資料只保存在目前裝置。</p>
+        </div>
+        <div class="reminder-grid">
+          <article class="reminder-card arrival-card">
+            <h3>抵達後</h3>
+            <label><input type="checkbox" data-check="arrival-network"> 確認網路／漫遊可使用</label>
+            <label><input type="checkbox" data-check="arrival-luggage"> 確認托運行李與隨身物品</label>
+            <label><input type="checkbox" data-check="arrival-message"> 在同行群組報平安</label>
+            <label><input type="checkbox" data-check="arrival-plan"> 依私人行程資料確認後續移動</label>
+          </article>
+          <article class="reminder-card return-card">
+            <h3>返程前</h3>
+            <label><input type="checkbox" data-check="return-checkout"> 退房前確認個人物品與充電器</label>
+            <label><input type="checkbox" data-check="return-luggage"> 安排行李寄放或隨身攜帶</label>
+            <label><input type="checkbox" data-check="return-documents"> 確認護照、錢包與交通卡</label>
+            <label><input type="checkbox" data-check="return-airport"> 依航班時間預留前往機場與報到時間</label>
+          </article>
+        </div>
+      </section>
+
+      <section class="weather-plan" aria-labelledby="weather-title">
+        <div class="guide-heading">
+          <p class="eyebrow">RAIN PLAN</p>
+          <h2 id="weather-title">今日雨天備案</h2>
+          <p>依官方警報與交通狀況決定是否調整；本網站不會自行判讀即時天氣。</p>
+        </div>
+        <div class="weather-grid">
+          <article class="weather-card">
+            <h3>今日狀態</h3>
+            <label for="weather-status">手動設定</label>
+            <select id="weather-status">
+              <option value="normal">照原行程</option>
+              <option value="watch">留意天氣與交通</option>
+              <option value="indoor">改為室內備案</option>
+            </select>
+            <p id="weather-status-note" class="weather-status-note"></p>
+          </article>
+          <article class="weather-card backup-card">
+            <h3>當日備案</h3>
+            <p id="rain-backup" class="rain-backup"></p>
+          </article>
+          <article class="weather-card official-card">
+            <h3>官方資訊</h3>
+            <a href="https://www.jma.go.jp/jma/kokusai/multi.html" target="_blank" rel="noopener noreferrer">日本氣象廳繁中防災資訊</a>
+            <a href="https://www.data.jma.go.jp/multi/yoho/koshin.html?lang=en" target="_blank" rel="noopener noreferrer">東京天氣／警報</a>
+            <p>若出現警報、強風或交通大幅延誤，請優先依官方與現場指示行動。</p>
+          </article>
+        </div>
+      </section>
+
       <section class="tools" aria-labelledby="tools-title">
         <div class="guide-heading">
           <p class="eyebrow">TRIP TOOLS</p>
           <h2 id="tools-title">旅途中使用</h2>
-          <p>勾選狀態只保存在目前裝置的瀏覽器，不會上傳或公開。</p>
+          <p>勾選清單已移到右下角的「我的清單」，不用再滑到本區操作。</p>
         </div>
-        <div class="tools-grid">
-          <article class="tool-card">
-            <h3>行李清單</h3>
-            <label><input type="checkbox" data-check="passport"> 護照與證件</label>
-            <label><input type="checkbox" data-check="wallet"> 現金、信用卡與交通卡</label>
-            <label><input type="checkbox" data-check="phone"> 手機、充電器與行動電源</label>
-            <label><input type="checkbox" data-check="sim"> 網卡／漫遊</label>
-            <label><input type="checkbox" data-check="medicine"> 常用藥品</label>
-            <label><input type="checkbox" data-check="umbrella"> 雨具與換洗衣物</label>
-          </article>
+        <div class="tools-grid emergency-grid">
           <article class="tool-card emergency">
             <h3>緊急資訊</h3>
             <p><strong>警察：</strong>110</p>
@@ -87,7 +149,25 @@
             <p><strong>日本國際觀光旅客熱線：</strong>050-3816-2787</p>
             <small>需要協助時，請先確認自身安全，再向附近店家、車站或警察求助。</small>
           </article>
-          <article class="tool-card progress-card">
+        </div>
+      </section>
+    </main>
+
+    <button class="checklist-fab" id="checklist-toggle" type="button" aria-expanded="false" aria-controls="checklist-drawer">✓ 我的清單</button>
+    <div class="checklist-backdrop" id="checklist-backdrop" aria-hidden="true"></div>
+    <aside class="checklist-drawer" id="checklist-drawer" aria-label="我的清單" aria-hidden="true">
+      <div class="drawer-heading"><div><p class="eyebrow">QUICK CHECKLIST</p><h2>我的清單</h2></div><button class="drawer-close" id="checklist-close" type="button" aria-label="關閉清單">×</button></div>
+      <p class="drawer-note">勾選狀態只保存在目前裝置，不會上傳或公開。</p>
+      <article class="drawer-card">
+        <h3>行李清單</h3>
+        <label><input type="checkbox" data-check="passport"> 護照與證件</label>
+        <label><input type="checkbox" data-check="wallet"> 現金、信用卡與交通卡</label>
+        <label><input type="checkbox" data-check="phone"> 手機、充電器與行動電源</label>
+        <label><input type="checkbox" data-check="sim"> 網卡／漫遊</label>
+        <label><input type="checkbox" data-check="medicine"> 常用藥品</label>
+        <label><input type="checkbox" data-check="umbrella"> 雨具與換洗衣物</label>
+      </article>
+      <article class="drawer-card progress-card">
             <h3>每日勾選進度</h3>
             <label><input type="checkbox" data-day="9/17"> 9/17 抵達與入住</label>
             <label><input type="checkbox" data-day="9/18"> 9/18 東京市區行程</label>
@@ -96,12 +176,10 @@
             <label><input type="checkbox" data-day="9/21"> 9/21 退房與返台</label>
             <button class="clear-checks" type="button" id="clear-checks">清除所有勾選</button>
           </article>
-        </div>
-      </section>
-    </main>
+    </aside>
 
     <footer>東京行程整合表 · 最後更新 2026/09/16</footer>
-    <script src="app.js?v=20260917-3"></script>
+    <script src="app.js?v=20260917-4"></script>
   </body>
 </html>
 
