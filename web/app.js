@@ -145,7 +145,6 @@ fontToggle.addEventListener("click", () => {
 });
 renderFontSize(largeTextEnabled);
 
-const offlineStatus = document.querySelector("#offline-status");
 const offlineIndicator = document.querySelector("#offline-indicator");
 const offlineIndicatorText = document.querySelector("#offline-indicator-text");
 const installApp = document.querySelector("#install-app");
@@ -158,13 +157,10 @@ function setOfflineIndicator(state, text) {
 
 function updateOfflineStatus() {
   if (!navigator.onLine) {
-    offlineStatus.textContent = "目前離線，正在顯示已快取的行程內容。";
     setOfflineIndicator("offline", "離線中 · 已儲存行程");
   } else if (navigator.serviceWorker?.controller) {
-    offlineStatus.textContent = "離線內容已準備完成，可在沒有網路時開啟此行程。";
     setOfflineIndicator("ready", "離線已就緒");
   } else {
-    offlineStatus.textContent = "正在準備離線內容…";
     setOfflineIndicator("preparing", "離線準備中");
   }
 }
@@ -195,12 +191,10 @@ if ("serviceWorker" in navigator) {
         navigator.serviceWorker.addEventListener("controllerchange", updateOfflineStatus, { once: true });
       })
       .catch(() => {
-        offlineStatus.textContent = "此瀏覽器目前無法啟用離線模式，請保持網路連線使用。";
         setOfflineIndicator("unavailable", "離線功能不可用");
       });
   });
 } else {
-  offlineStatus.textContent = "此瀏覽器不支援離線模式，請保持網路連線使用。";
   setOfflineIndicator("unavailable", "離線功能不可用");
 }
 
