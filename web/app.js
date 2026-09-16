@@ -33,15 +33,62 @@ const itinerary = [
 
 const nav = document.querySelector("#day-nav");
 const container = document.querySelector("#itinerary");
-let selectedDay = 0;
+const todayCard = document.querySelector("#today-card");
+const today = new Date();
+const todayLabel = `${today.getMonth() + 1}/${today.getDate()}`;
+const todayIndex = Math.max(0, itinerary.findIndex(day => day.date === todayLabel));
+let selectedDay = todayIndex;
+const rainBackups = [
+  "優先改為晴空塔商場等室內行程，並視交通狀況調整入住安排。",
+  "優先安排水族館、商場或電器店等室內活動，戶外寺社行程可延後。",
+  "優先保留室內博物館或展覽活動；如遇強風，避免海邊與高空設施。",
+  "原宿、表參道與澀谷行程可改為室內商場；江之島與鎌倉戶外行程建議延後。",
+  "優先於室內整理行李或使用機場設施，並提早確認航班與交通狀態。"
+];
 
 function eventCard(className, label, items) {
   if (!items.length) return "";
   return `<article class="event ${className}"><h3>${label}</h3><ul>${items.map(item => `<li>${item}</li>`).join("")}</ul></article>`;
 }
 
+function summaryList(className, label, items) {
+  if (!items.length) return "";
+  return `<article class="today-list ${className}"><h3>${label}</h3><ul>${items.slice(0, 3).map(item => `<li>${item}</li>`).join("")}</ul></article>`;
+}
+
+function dayReminder(index) {
+  if (index === 0) return "抵達／入住提醒：確認網路、行李與同行群組訊息。";
+  if (index === itinerary.length - 1) return "退房／返台提醒：確認行李、護照與前往機場時間。";
+  return "當日提醒：依行程時間與同行群組訊息安排集合。";
+}
+
+function renderTodaySummary() {
+  const day = itinerary[todayIndex];
+  const isTripDay = itinerary.some(item => item.date === todayLabel);
+  todayCard.innerHTML = `
+    <div class="today-heading">
+      <div><p class="eyebrow">${isTripDay ? "TODAY'S PLAN" : "TRIP OVERVIEW"}</p><h2 id="today-title">${isTripDay ? "今天的行程" : "旅程從 9/17 開始"}</h2></div>
+      <p class="today-date">${day.date}<span>${day.weekday}</span></p>
+    </div>
+    <p class="today-time">${day.time}</p>
+    <div class="today-agenda">
+      ${summaryList("zhuang", "小莊", day.zhuang)}
+      ${summaryList("ding", "丁丁", day.ding)}
+      ${summaryList("shared", "共同", day.shared)}
+    </div>
+    <div class="today-footer"><p>${dayReminder(todayIndex)}</p><button type="button" id="view-today">查看完整當日行程</button></div>`;
+  document.querySelector("#view-today").addEventListener("click", () => {
+    selectedDay = todayIndex;
+    render();
+    container.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
+
 function render() {
-  nav.innerHTML = itinerary.map((day, index) => `<button class="day-button ${index === selectedDay ? "active" : ""}" data-index="${index}">${day.date} ${day.weekday.split("／")[0]}</button>`).join("");
+  nav.innerHTML = itinerary.map((day, index) => {
+    const isToday = day.date === todayLabel;
+    return `<button class="day-button ${index === selectedDay ? "active" : ""} ${isToday ? "today" : ""}" data-index="${index}">${day.date} ${day.weekday.split("／")[0]}${isToday ? " <span>今天</span>" : ""}</button>`;
+  }).join("");
   const day = itinerary[selectedDay];
   container.innerHTML = `
     <article class="day-panel">
@@ -61,7 +108,46 @@ function render() {
   }));
 }
 
+renderTodaySummary();
 render();
+
+const weatherStatus = document.querySelector("#weather-status");
+const weatherStatusNote = document.querySelector("#weather-status-note");
+const rainBackup = document.querySelector("#rain-backup");
+const weatherNotes = {
+  normal: "依原行程進行，出門前仍建議查看官方天氣與交通資訊。",
+  watch: "請備妥雨具，並預留交通延誤與臨時調整時間。",
+  indoor: "優先使用室內備案；若有警報或現場管制，請停止非必要移動。"
+};
+const savedWeatherStatus = localStorage.getItem("tokyo-itinerary-weather-status") || "normal";
+weatherStatus.value = savedWeatherStatus;
+rainBackup.textContent = rainBackups[todayIndex];
+function renderWeatherStatus() {
+  weatherStatusNote.textContent = weatherNotes[weatherStatus.value];
+}
+weatherStatus.addEventListener("change", () => {
+  localStorage.setItem("tokyo-itinerary-weather-status", weatherStatus.value);
+  renderWeatherStatus();
+});
+renderWeatherStatus();
+
+const fontToggle = document.querySelector("#font-toggle");
+const largeTextEnabled = localStorage.getItem("tokyo-itinerary-large-text") === "true";
+function renderFontSize(enabled) {
+  document.body.classList.toggle("large-text", enabled);
+  fontToggle.setAttribute("aria-pressed", String(enabled));
+  fontToggle.textContent = enabled ? "Aa 一般字模式" : "Aa 大字模式";
+}
+fontToggle.addEventListener("click", () => {
+  const enabled = !document.body.classList.contains("large-text");
+  localStorage.setItem("tokyo-itinerary-large-text", String(enabled));
+  renderFontSize(enabled);
+});
+renderFontSize(largeTextEnabled);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+}
 
 const savedChecks = JSON.parse(localStorage.getItem("tokyo-itinerary-checks") || "{}");
 document.querySelectorAll("input[data-check], input[data-day]").forEach(input => {
@@ -78,3 +164,16 @@ document.querySelector("#clear-checks").addEventListener("click", () => {
   localStorage.removeItem("tokyo-itinerary-checks");
 });
 
+const checklistToggle = document.querySelector("#checklist-toggle");
+const checklistDrawer = document.querySelector("#checklist-drawer");
+const checklistBackdrop = document.querySelector("#checklist-backdrop");
+function setChecklistOpen(isOpen) {
+  document.body.classList.toggle("checklist-open", isOpen);
+  checklistToggle.setAttribute("aria-expanded", String(isOpen));
+  checklistDrawer.setAttribute("aria-hidden", String(!isOpen));
+  checklistBackdrop.setAttribute("aria-hidden", String(!isOpen));
+}
+checklistToggle.addEventListener("click", () => setChecklistOpen(!document.body.classList.contains("checklist-open")));
+document.querySelector("#checklist-close").addEventListener("click", () => setChecklistOpen(false));
+checklistBackdrop.addEventListener("click", () => setChecklistOpen(false));
+document.addEventListener("keydown", event => { if (event.key === "Escape") setChecklistOpen(false); });
