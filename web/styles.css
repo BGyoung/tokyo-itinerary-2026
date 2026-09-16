@@ -64,6 +64,14 @@ h1 { margin: 0; font: 700 clamp(2.4rem, 7vw, 4.7rem)/1 "Playfair Display", "Noto
 .note { margin-top: 22px; padding: 20px 22px; border-left: 4px solid var(--orange); background: #fff6e9; border-radius: 0 12px 12px 0; }
 .note h2 { margin: 0 0 7px; font-size: 1rem; }
 .note p { margin: 0; color: #76502d; font-size: .9rem; line-height: 1.75; }
+.guide { margin-top: 28px; padding: 26px; background: rgba(255,254,250,.82); border: 1px solid var(--line); border-radius: 20px; }
+.guide-heading h2 { margin: 0 0 8px; font-size: 1.45rem; }
+.guide-heading p:last-child { margin: 0; color: var(--muted); line-height: 1.7; font-size: .92rem; }
+.guide-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 20px; }
+.guide details { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.guide summary { cursor: pointer; font-weight: 700; color: var(--ink); }
+.guide details ul { margin: 12px 0 0; padding-left: 1.2rem; color: var(--muted); line-height: 1.75; font-size: .9rem; }
+.guide-private { margin: 18px 0 0; color: #8b5e34; font-size: .82rem; line-height: 1.6; }
 footer { padding: 0 16px 32px; text-align: center; color: #8a96a4; font-size: .78rem; }
 
 @media (max-width: 680px) {
@@ -72,4 +80,7 @@ footer { padding: 0 16px 32px; text-align: center; color: #8a96a4; font-size: .7
   .date-block { border-right: 0; border-bottom: 1px solid var(--line); padding: 0 0 14px; display: grid; grid-template-columns: 1fr auto; align-items: end; }
   .date-block .time { grid-column: 1 / -1; margin-top: 14px; padding-top: 12px; }
   .event { grid-template-columns: 1fr; gap: 7px; padding: 14px; }
+  .guide { padding: 18px; border-radius: 16px; }
+  .guide-grid { grid-template-columns: 1fr; }
 }
+
